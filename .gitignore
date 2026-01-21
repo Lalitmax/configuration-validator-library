@@ -1,5 +1,5 @@
 # Compiled binaries and build artifacts
-/target/
+target/
 Cargo.lock
 
 # Backup files from editors

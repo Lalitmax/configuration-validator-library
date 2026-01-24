@@ -61,3 +61,49 @@ pub fn validate_ipv4(ip: &str) -> Result<(), ValidationError> {
 
     Ok(())
 }
+
+// Validate network interface name
+pub fn validate_interface_name(name: &str) -> Result<(), ValidationError> {
+    if name.is_empty() {
+        return Err(ValidationError::InvalidNetworkInterface {
+            name: name.to_string(),
+            reason: "interface name cannot be empty".to_string(),
+        });
+    }
+
+    let mut chars = name.chars();
+
+    // Must start with letters
+    let mut seen_digit = false;
+    for c in chars.by_ref() {
+        if c.is_ascii_digit() {
+            seen_digit = true;
+            break;
+        }
+        if !c.is_ascii_alphabetic() {
+            return Err(ValidationError::InvalidNetworkInterface {
+                name: name.to_string(),
+                reason: "must start with letters".to_string(),
+            });
+        }
+    }
+
+    // After digits start, all must be digits
+    for c in chars {
+        if !c.is_ascii_digit() {
+            return Err(ValidationError::InvalidNetworkInterface {
+                name: name.to_string(),
+                reason: "letters must come before digits".to_string(),
+            });
+        }
+    }
+
+    if !seen_digit {
+        return Err(ValidationError::InvalidNetworkInterface {
+            name: name.to_string(),
+            reason: "must end with digits".to_string(),
+        });
+    }
+
+    Ok(())
+}

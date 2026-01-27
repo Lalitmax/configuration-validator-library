@@ -107,3 +107,37 @@ pub fn validate_interface_name(name: &str) -> Result<(), ValidationError> {
 
     Ok(())
 }
+
+// Validate filesystem name
+pub fn validate_filesystem_name(name: &str) -> Result<(), ValidationError> {
+    if name.is_empty() || name.len() > 64 {
+        return Err(ValidationError::InvalidFilesystemName {
+            name: name.to_string(),
+            reason: "must be 1-64 characters long".to_string(),
+        });
+    }
+
+    if !name
+        .chars()
+        .all(|c| c.is_ascii_alphanumeric() || c == '_')
+    {
+        return Err(ValidationError::InvalidFilesystemName {
+            name: name.to_string(),
+            reason: "only alphanumeric characters and '_' allowed".to_string(),
+        });
+    }
+
+    Ok(())
+}
+
+// Validate mount point
+pub fn validate_mount_point(path: &str) -> Result<(), ValidationError> {
+    if !path.starts_with('/') {
+        return Err(ValidationError::InvalidMountPoint {
+            path: path.to_string(),
+            reason: "mount point must start with '/'".to_string(),
+        });
+    }
+
+    Ok(())
+}

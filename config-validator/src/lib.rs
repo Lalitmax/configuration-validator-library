@@ -5,7 +5,14 @@ pub mod validation;
 
 pub use validation::Validate;
 pub use error::ValidationError;
-pub use config::{NetworkConfig, NetworkInterface, NetworkType};
-pub use config::{StorageConfig, Filesystem};
-pub use config::{Host, HostRole};
 pub use types::ByteSize;
+pub use config::{
+    Host,
+    HostRole,
+    ServerConfig,
+    NetworkConfig,
+    NetworkInterface,
+    NetworkType,
+    StorageConfig,
+    Filesystem,
+};

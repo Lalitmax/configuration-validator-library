@@ -11,8 +11,8 @@ use config_validator::{
     Validate,
 };
 
-fn main() {
-    // Create a valid server configuration
+#[test]
+fn valid_server_config_passes_validation() {
     let server = ServerConfig {
         name: "prod-cluster".to_string(),
         hosts: vec![
@@ -44,8 +44,5 @@ fn main() {
         },
     };
 
-    match server.validate() {
-        Ok(_) => println!("Server config is valid"),
-        Err(e) => println!("Server config is invalid: {}", e),
-    }
+    assert!(server.validate().is_ok());
 }
